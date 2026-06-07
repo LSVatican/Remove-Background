@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil - Remove Background</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container glow-box">
+        <!-- Tetap tampilkan info saldo di halaman hasil -->
+        <div class="header-status">
+            <div class="status-item">🪙 Kredit: <span id="creditBalance">0</span></div>
+        </div>
+
+        <h1>Hasil Gambar</h1>
+        
+        <div class="result-area">
+            <img id="resultImage" src="" alt="Hasil Remove Background" class="glowing-img">
+        </div>
+        
+        <div class="button-group">
+            <!-- Tampilan biaya disematkan di tombol download sesuai request -->
+            <button id="btnDownload" class="btn btn-neon">Download Image (10 Kredit)</button>
+            <button id="btnClose" class="btn btn-outline">Close (Kembali)</button>
+        </div>
+        
+        <div class="watermark">by Daus XD</div>
+    </div>
+
+    <!-- Pop Up Ganti Nama File (Opsional) -->
+    <div id="renamePopup" class="popup" style="display: none;">
+        <div class="popup-content glow-box">
+            <h3>Ganti Nama File</h3>
+            <p>Masukkan nama baru (tanpa ekstensi):</p>
+            <input type="text" id="newFileName" placeholder="removebg_dausxd" class="popup-input">
+            <div class="popup-buttons">
+                <button id="btnConfirmDownload" class="btn btn-neon">Potong Saldo & Download</button>
+                <button id="btnCancelPopup" class="btn btn-outline">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const resultImageData = localStorage.getItem('processedImage');
+            if (!resultImageData) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            document.getElementById('resultImage').src = resultImageData;
+
+            const btnDownload = document.getElementById('btnDownload');
+            const btnClose = document.getElementById('btnClose');
+            const renamePopup = document.getElementById('renamePopup');
+            const btnCancelPopup = document.getElementById('btnCancelPopup');
+            const btnConfirmDownload = document.getElementById('btnConfirmDownload');
+            const newFileNameInput = document.getElementById('newFileName');
+
+            btnClose.addEventListener('click', () => {
+                localStorage.removeItem('processedImage');
+                window.location.href = 'index.html';
+            });
+
+            btnDownload.addEventListener('click', () => {
+                // Validasi ulang saldo saat user mengklik download
+                let currentCredits = parseInt(localStorage.getItem('userCredits') || 0);
+                if (currentCredits < 10) {
+                    alert('⚠️ Kredit Anda kurang untuk mendownload gambar ini!');
+                    return;
+                }
+                renamePopup.style.display = 'flex';
+            });
+
+            btnCancelPopup.addEventListener('click', () => {
+                renamePopup.style.display = 'none';
+            });
+
+            btnConfirmDownload.addEventListener('click', () => {
+                let currentCredits = parseInt(localStorage.getItem('userCredits') || 0);
+                
+                if (currentCredits >= 10) {
+                    // Potong kredit pengunduhan sebesar 10 poin
+                    localStorage.setItem('userCredits', currentCredits - 10);
+                    updateCreditDisplay();
+
+                    let fileName = newFileNameInput.value.trim() || 'removebg_dausxd';
+                    
+                    const link = document.createElement('a');
+                    link.href = resultImageData;
+                    link.download = `${fileName}.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    renamePopup.style.display = 'none';
+                    alert('⬇️ Gambar berhasil diunduh. Kredit dipotong 10.');
+                } else {
+                    alert('Kredit tidak cukup.');
+                    renamePopup.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

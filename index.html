@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Background | by Daus XD</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container glow-box">
+        <!-- Informasi Saldo & Waktu -->
+        <div class="header-status">
+            <div class="status-item">🪙 Kredit: <span id="creditBalance">0</span></div>
+            <div class="status-item" id="realTimeClock">Memuat waktu...</div>
+        </div>
+
+        <h1>Remove Background</h1>
+        <p class="subtitle">Hapus latar belakang gambar</p>
+        
+        <div class="drop-zone" id="dropZone">
+            <span class="drop-zone__prompt">Taruh file di sini atau klik untuk memilih gambar</span>
+            <input type="file" id="fileInput" class="drop-zone__input" accept="image/*">
+        </div>
+        
+        <div id="loading" class="loading-status" style="display: none;">
+            <div class="spinner"></div>
+            <p>Sedang memproses gambar...</p>
+        </div>
+        
+        <div class="watermark">by Daus XD</div>
+    </div>
+
+    <!-- POP UP CHECK-IN HARIAN -->
+    <div id="checkInPopup" class="popup" style="display: none;">
+        <div class="popup-content glow-box">
+            <h2>📆 Check-In Harian</h2>
+            <p>Selamat datang kembali! Ambil bonus kredit harian Anda hari ini.</p>
+            <div class="bonus-highlight">+<span id="bonusAmount">0</span> Kredit</div>
+            <button id="btnClaimCheckIn" class="btn btn-neon" style="width: 100%;">Klaim Sekarang</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

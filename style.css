@@ -1,0 +1,210 @@
+:root {
+    --bg-color: #0b0c10;
+    --container-bg: #1f2833;
+    --neon-color: #45f3ff;
+    --neon-glow: #00d2ff;
+    --text-color: #c5a059; /* Emas Elegan */
+    --text-light: #ffffff;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: var(--container-bg);
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 15px rgba(69, 243, 255, 0.2);
+}
+
+/* Glowing Stroke Effect */
+.glow-box {
+    border: 2px solid var(--neon-color);
+    box-shadow: 0 0 10px var(--neon-color), inset 0 0 10px rgba(69, 243, 255, 0.3);
+}
+
+h1 {
+    color: var(--neon-color);
+    margin-bottom: 5px;
+    text-shadow: 0 0 8px var(--neon-glow);
+}
+
+.subtitle {
+    color: #85929E;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+/* Upload Drop Zone */
+.drop-zone {
+    border: 2px dashed var(--neon-color);
+    padding: 40px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.drop-zone:hover {
+    background: rgba(69, 243, 255, 0.05);
+}
+
+.drop-zone__prompt {
+    font-size: 16px;
+    color: var(--text-light);
+}
+
+.drop-zone__input {
+    display: none;
+}
+
+/* Buttons */
+.button-group {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-neon {
+    background-color: var(--neon-color);
+    color: #000;
+    box-shadow: 0 0 10px var(--neon-color);
+}
+
+.btn-neon:hover {
+    box-shadow: 0 0 20px var(--neon-color);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--neon-color);
+    border: 2px solid var(--neon-color);
+}
+
+.btn-outline:hover {
+    background: var(--neon-color);
+    color: #000;
+}
+
+/* Image Results */
+.glowing-img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    border: 2px solid var(--neon-color);
+    box-shadow: 0 0 15px var(--neon-glow);
+    background-image: linear-gradient(45deg, #111 25%, transparent 25%), 
+                      linear-gradient(-45deg, #111 25%, transparent 25%), 
+                      linear-gradient(45deg, transparent 75%, #111 75%), 
+                      linear-gradient(-45deg, transparent 75%, #111 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px; /* Efek transparan catur */
+}
+
+/* Watermark Style */
+.watermark {
+    margin-top: 25px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+}
+
+/* Loading Spinner */
+.spinner {
+    border: 4px solid rgba(255,255,255,0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: var(--neon-color);
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* Pop Up Styling */
+.popup {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.popup-content {
+    background: var(--container-bg);
+    padding: 25px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+}
+
+.popup-input {
+    width: 90%;
+    padding: 10px;
+    margin: 15px 0;
+    background: #111;
+    border: 1px solid var(--neon-color);
+    color: #fff;
+    border-radius: 4px;
+}
+
+/* Header Status Info (Kredit & Jam) */
+.header-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 8px 15px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(69, 243, 255, 0.2);
+}
+
+.status-item {
+    font-weight: bold;
+    color: var(--neon-color);
+}
+
+/* Sektor Sorotan Bonus Check-In */
+.bonus-highlight {
+    font-size: 32px;
+    font-weight: 800;
+    color: #2ecc71; /* Warna hijau sukses */
+    text-shadow: 0 0 10px rgba(46, 204, 113, 0.6);
+    margin: 20px 0;
+}
+
+.popup-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
