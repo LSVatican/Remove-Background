@@ -4,40 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hasil - Remove Background</title>
-    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="container glow-box">
-        <!-- Tetap tampilkan info saldo di halaman hasil -->
         <div class="header-status">
             <div class="status-item">🪙 Kredit: <span id="creditBalance">0</span></div>
         </div>
 
         <h1>Hasil Gambar</h1>
         
-        <div class="result-area">
-            <img id="resultImage" src="" alt="Hasil Remove Background" class="glowing-img">
+        <div class="result-area img-protection">
+            <img id="resultImage" src="" alt="Hasil Remove Background" class="glowing-img" draggable="false">
+            <div class="img-overlay"></div>
         </div>
         
         <div class="button-group">
-            <!-- Tampilan biaya disematkan di tombol download sesuai request -->
-            <button id="btnDownload" class="btn btn-neon">Download (10 Kredit)</button>
-            <button id="btnClose" class="btn btn-outline">Kembali</button>
+            <button id="btnDownload" class="btn btn-neon">Download Image (10 Kredit)</button>
+            <button id="btnClose" class="btn btn-outline">Close (Kembali)</button>
         </div>
         
         <div class="watermark">by Daus XD</div>
     </div>
 
-    <!-- Pop Up Ganti Nama File (Opsional) -->
     <div id="renamePopup" class="popup" style="display: none;">
         <div class="popup-content glow-box">
             <h3>Ganti Nama File</h3>
             <p>Masukkan nama baru (tanpa ekstensi):</p>
             <input type="text" id="newFileName" placeholder="removebg_dausxd" class="popup-input">
             <div class="popup-buttons">
-                <button id="btnConfirmDownload" class="btn btn-neon">Simpan</button>
+                <button id="btnConfirmDownload" class="btn btn-neon">Potong Saldo & Download</button>
                 <button id="btnCancelPopup" class="btn btn-outline">Batal</button>
             </div>
         </div>
@@ -52,8 +50,23 @@
                 return;
             }
             
-            document.getElementById('resultImage').src = resultImageData;
+            const resultImage = document.getElementById('resultImage');
+            resultImage.src = resultImageData;
 
+            // --- SISTEM PROTEKSI GAMBAR (ANTI CURANG) ---
+            // 1. Blokir klik kanan (PC) dan tahan sentuhan lama / long-press (HP)
+            const protectionZone = document.querySelector('.img-protection');
+            protectionZone.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                return false;
+            });
+
+            // 2. Mencegah drag-and-drop gambar keluar browser
+            resultImage.addEventListener('dragstart', (e) => {
+                e.preventDefault();
+            });
+
+            // --- LOGIKA TOMBOL & DOWNLOAD ---
             const btnDownload = document.getElementById('btnDownload');
             const btnClose = document.getElementById('btnClose');
             const renamePopup = document.getElementById('renamePopup');
@@ -67,7 +80,6 @@
             });
 
             btnDownload.addEventListener('click', () => {
-                // Validasi ulang saldo saat user mengklik download
                 let currentCredits = parseInt(localStorage.getItem('userCredits') || 0);
                 if (currentCredits < 10) {
                     alert('⚠️ Kredit Anda kurang untuk mendownload gambar ini!');
@@ -84,7 +96,6 @@
                 let currentCredits = parseInt(localStorage.getItem('userCredits') || 0);
                 
                 if (currentCredits >= 10) {
-                    // Potong kredit pengunduhan sebesar 10 poin
                     localStorage.setItem('userCredits', currentCredits - 10);
                     updateCreditDisplay();
 
