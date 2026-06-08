@@ -41,11 +41,16 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+        <script src="script.js"></script>
     <script>
         window.addEventListener('DOMContentLoaded', () => {
+            // Mengambil data gambar dari localStorage
             const resultImageData = localStorage.getItem('processedImage');
+            
+            // JIKA GAMBAR TIDAK DITEMUKAN, BARU DIKEMBALIKAN KE INDEX
+            // Ini mencegah error jika user memaksa masuk ke hasil.html tanpa unggah foto
             if (!resultImageData) {
+                alert('Gambar tidak ditemukan atau sesi telah berakhir.');
                 window.location.href = 'index.html';
                 return;
             }
@@ -54,17 +59,13 @@
             resultImage.src = resultImageData;
 
             // --- SISTEM PROTEKSI GAMBAR (ANTI CURANG) ---
-            // 1. Blokir klik kanan (PC) dan tahan sentuhan lama / long-press (HP)
             const protectionZone = document.querySelector('.img-protection');
-            protectionZone.addEventListener('contextmenu', (e) => {
-                e.preventDefault();
-                return false;
-            });
-
-            // 2. Mencegah drag-and-drop gambar keluar browser
-            resultImage.addEventListener('dragstart', (e) => {
-                e.preventDefault();
-            });
+            if (protectionZone) {
+                protectionZone.addEventListener('contextmenu', (e) => e.preventDefault());
+            }
+            if (resultImage) {
+                resultImage.addEventListener('dragstart', (e) => e.preventDefault());
+            }
 
             // --- LOGIKA TOMBOL & DOWNLOAD ---
             const btnDownload = document.getElementById('btnDownload');
@@ -74,9 +75,10 @@
             const btnConfirmDownload = document.getElementById('btnConfirmDownload');
             const newFileNameInput = document.getElementById('newFileName');
 
+            // Tombol Close: Data HANYA dihapus jika tombol ini benar-benar diklik secara sadar
             btnClose.addEventListener('click', () => {
-                localStorage.removeItem('processedImage');
-                window.location.href = 'index.html';
+                localStorage.removeItem('processedImage'); // Hapus gambar dari memori
+                window.location.href = 'index.html';       // Kembali ke unggah
             });
 
             btnDownload.addEventListener('click', () => {
@@ -96,6 +98,7 @@
                 let currentCredits = parseInt(localStorage.getItem('userCredits') || 0);
                 
                 if (currentCredits >= 10) {
+                    // Potong saldo kredit
                     localStorage.setItem('userCredits', currentCredits - 10);
                     updateCreditDisplay();
 
